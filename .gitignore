@@ -1,24 +1,51 @@
 *.log
 .DS_Store
+
+# Fichiers d'environnement contenant les données sensibles
 .env
 .env.backup
-.env.production
+.env.production.backup
+.env.*.backup
+
+# Cache et fichiers PHP
 .phpactor.json
 .phpunit.result.cache
+/.phpunit.cache
+
+# IDE et éditeurs
 /.fleet
 /.idea
 /.nova
-/.phpunit.cache
 /.vscode
 /.zed
+
+# Authentification
 /auth.json
+
+# Dépendances et build
 /node_modules
 /public/build
 /public/hot
 /public/storage
+
+# Stockage et clés
 /storage/*.key
 /storage/pail
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+
+# Composer
 /vendor
+
+# Configuration de serveur
 Homestead.json
 Homestead.yaml
+
+# Fichiers système
 Thumbs.db
+*.pem
+*.key
+
