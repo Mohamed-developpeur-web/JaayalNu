@@ -1,7 +1,7 @@
 ﻿<?php
+namespace App\Models;
 
 /* Commentaire en français : Modèle Eloquent représentant la période d'abonnement premium d'un vendeur. */
-namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

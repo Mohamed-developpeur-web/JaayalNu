@@ -1,7 +1,7 @@
 ﻿<?php
+namespace App\Models;
 
 /* Commentaire en français : Modèle Eloquent représentant une catégorie de produits. */
-namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

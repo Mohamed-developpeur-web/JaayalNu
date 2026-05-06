@@ -1,7 +1,7 @@
 ﻿<?php
+namespace App\Models;
 
 /* Commentaire en français : Modèle Eloquent représentant le profil administrateur d'un utilisateur. */
-namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

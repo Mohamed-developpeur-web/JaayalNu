@@ -1,7 +1,7 @@
 ﻿<?php
+namespace App\Models;
 
 /* Commentaire en français : Modèle Eloquent représentant un utilisateur du système. */
-namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
