@@ -1,34 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Configuration PHPUnit pour l'application.
+    Ce fichier définit les suites de tests, les sources à analyser et les variables d'environnement pour l'exécution des tests.
+-->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true"
 >
+    <!-- Déclaration des suites de tests à exécuter -->
     <testsuites>
         <testsuite name="Unit">
+            <!-- Répertoire contenant les tests unitaires -->
             <directory>tests/Unit</directory>
         </testsuite>
         <testsuite name="Feature">
+            <!-- Répertoire contenant les tests fonctionnels / d'intégration -->
             <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>
+
+    <!-- Définition des sources de code à analyser pour mesurer la couverture -->
     <source>
         <include>
+            <!-- Répertoire des classes de l'application -->
             <directory>app</directory>
         </include>
     </source>
+
+    <!-- Variables d'environnement utilisées uniquement pendant l'exécution des tests -->
     <php>
+        <!-- Mode d'exécution de l'application pour les tests -->
         <env name="APP_ENV" value="testing"/>
+        <!-- Utiliser un pilote de maintenance basé sur fichier pendant les tests -->
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <!-- Nombre de tours pour le chiffrement Bcrypt (allégé pour accélérer les tests) -->
         <env name="BCRYPT_ROUNDS" value="4"/>
+        <!-- Désactivation des connexions de diffusion en direct -->
         <env name="BROADCAST_CONNECTION" value="null"/>
+        <!-- Stockage du cache en mémoire pour les tests -->
         <env name="CACHE_STORE" value="array"/>
+        <!-- Utilisation de SQLite en mémoire comme base de données pour les tests -->
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
         <env name="DB_URL" value=""/>
+        <!-- Envoi d'e-mails simulé en mémoire plutôt que réel -->
         <env name="MAIL_MAILER" value="array"/>
+        <!-- Exécution des jobs de la file d'attente immédiatement et de manière synchrone -->
         <env name="QUEUE_CONNECTION" value="sync"/>
+        <!-- Stockage des sessions en mémoire pour ne pas utiliser de stockage persistant -->
         <env name="SESSION_DRIVER" value="array"/>
+        <!-- Désactivation des services de surveillance et des outils de debug pendant les tests -->
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>
