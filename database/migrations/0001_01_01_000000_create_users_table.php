@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /* Migration initiale créant les tables users, password_reset_tokens et sessions. */
 use Illuminate\Database\Migrations\Migration;

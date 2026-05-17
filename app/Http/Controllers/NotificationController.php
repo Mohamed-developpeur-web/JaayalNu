@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -10,9 +11,25 @@ class NotificationController extends Controller
     /**
      * Retourne la liste des notifications.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Notification::all());
+        $notifications = Notification::with('user')->get();
+
+        if ($request->wantsJson()) {
+            return response()->json($notifications);
+        }
+
+        return view('notifications.index', compact('notifications'));
+    }
+
+    /**
+     * Affiche le formulaire de création d'une notification.
+     */
+    public function create()
+    {
+        $users = User::orderBy('name')->get();
+
+        return view('notifications.create', compact('users'));
     }
 
     /**
@@ -30,15 +47,35 @@ class NotificationController extends Controller
 
         $notification = Notification::create($validated);
 
-        return response()->json($notification, 201);
+        if ($request->wantsJson()) {
+            return response()->json($notification, 201);
+        }
+
+        return redirect()->route('notifications.index')->with('success', 'Notification créée avec succès.');
     }
 
     /**
      * Affiche le détail d'une notification.
      */
-    public function show(Notification $notification)
+    public function show(Request $request, Notification $notification)
     {
-        return response()->json($notification);
+        $notification->load('user');
+
+        if ($request->wantsJson()) {
+            return response()->json($notification);
+        }
+
+        return view('notifications.show', compact('notification'));
+    }
+
+    /**
+     * Affiche le formulaire d'édition d'une notification.
+     */
+    public function edit(Notification $notification)
+    {
+        $users = User::orderBy('name')->get();
+
+        return view('notifications.edit', compact('notification', 'users'));
     }
 
     /**
@@ -56,16 +93,24 @@ class NotificationController extends Controller
 
         $notification->update($validated);
 
-        return response()->json($notification);
+        if ($request->wantsJson()) {
+            return response()->json($notification);
+        }
+
+        return redirect()->route('notifications.show', $notification)->with('success', 'Notification mise à jour.');
     }
 
     /**
      * Supprime une notification.
      */
-    public function destroy(Notification $notification)
+    public function destroy(Request $request, Notification $notification)
     {
         $notification->delete();
 
-        return response()->json(null, 204);
+        if ($request->wantsJson()) {
+            return response()->json(null, 204);
+        }
+
+        return redirect()->route('notifications.index')->with('success', 'Notification supprimée.');
     }
 }

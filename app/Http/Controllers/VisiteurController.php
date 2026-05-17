@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Visiteur;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,25 @@ class VisiteurController extends Controller
     /**
      * Retourne tous les profils visiteur.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Visiteur::all());
+        $visiteurs = Visiteur::with('user')->get();
+
+        if ($request->wantsJson()) {
+            return response()->json($visiteurs);
+        }
+
+        return view('visiteurs.index', compact('visiteurs'));
+    }
+
+    /**
+     * Affiche le formulaire de création d'un visiteur.
+     */
+    public function create()
+    {
+        $users = User::orderBy('name')->get();
+
+        return view('visiteurs.create', compact('users'));
     }
 
     /**
@@ -26,15 +43,25 @@ class VisiteurController extends Controller
 
         $visiteur = Visiteur::create($validated);
 
-        return response()->json($visiteur, 201);
+        if ($request->wantsJson()) {
+            return response()->json($visiteur, 201);
+        }
+
+        return redirect()->route('visiteurs.index')->with('success', 'Visiteur créé avec succès.');
     }
 
     /**
      * Affiche les détails d'un visiteur.
      */
-    public function show(Visiteur $visiteur)
+    public function show(Request $request, Visiteur $visiteur)
     {
-        return response()->json($visiteur);
+        $visiteur->load('user');
+
+        if ($request->wantsJson()) {
+            return response()->json($visiteur);
+        }
+
+        return view('visiteurs.show', compact('visiteur'));
     }
 
     /**
@@ -48,16 +75,34 @@ class VisiteurController extends Controller
 
         $visiteur->update($validated);
 
-        return response()->json($visiteur);
+        if ($request->wantsJson()) {
+            return response()->json($visiteur);
+        }
+
+        return redirect()->route('visiteurs.show', $visiteur)->with('success', 'Visiteur mis à jour.');
+    }
+
+    /**
+     * Affiche le formulaire d'édition d'un visiteur.
+     */
+    public function edit(Visiteur $visiteur)
+    {
+        $users = User::orderBy('name')->get();
+
+        return view('visiteurs.edit', compact('visiteur', 'users'));
     }
 
     /**
      * Supprime un profil visiteur.
      */
-    public function destroy(Visiteur $visiteur)
+    public function destroy(Request $request, Visiteur $visiteur)
     {
         $visiteur->delete();
 
-        return response()->json(null, 204);
+        if ($request->wantsJson()) {
+            return response()->json(null, 204);
+        }
+
+        return redirect()->route('visiteurs.index')->with('success', 'Visiteur supprimé.');
     }
 }

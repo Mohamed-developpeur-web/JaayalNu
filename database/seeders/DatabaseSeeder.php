@@ -1,6 +1,5 @@
 <?php
 
-/*  Seeder métier initialisant les utilisateurs et les données de base de la marketplace. */
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -12,12 +11,11 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Remplit la base de données avec les données de démarrage nécessaires
-     * pour l'administration, les vendeurs et les visiteurs de la marketplace.
+     * Seed the application's database.
      */
     public function run(): void
     {
-        // Crée l'utilisateur de base requis pour l'administration et les tests initiaux.
+        // Seed the base user required by l'application.
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -29,4 +27,3 @@ class DatabaseSeeder extends Seeder
         }
     }
 }
-

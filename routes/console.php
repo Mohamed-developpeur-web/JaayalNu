@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /* Commentaire en français : Définition des routes HTTP de l'application. */
 use Illuminate\Foundation\Inspiring;

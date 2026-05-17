@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /* Commentaire en français : Point d'entrée public accessible via le navigateur. */
 use Illuminate\Foundation\Application;

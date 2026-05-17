@@ -1,0 +1,112 @@
+<footer class="footer">
+  <!-- FOOTER MAIN CONTENT -->
+  <div class="footer-container">
+    <!-- BRAND & ABOUT -->
+    <section class="footer-section footer-about">
+      <div class="footer-logo">
+        <h3>🏪 Jaayal</h3>
+        <p class="brand-tagline">La marketplace locale des vendeurs et acheteurs</p>
+      </div>
+      <p class="footer-description">
+        Jaayal connecte les vendeurs locaux et les clients dans une expérience d'achat
+        transparente, sécurisée et efficace. Votre plateforme de confiance pour le commerce local.
+      </p>
+
+      <!-- SOCIAL LINKS -->
+      <div class="social-links">
+        <span class="social-title">Suivez-nous</span>
+        <div class="social-icons">
+          <a *ngFor="let social of socialLinks" [href]="social.link" [title]="social.label" class="social-icon">
+            {{ social.icon }}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- LINKS SECTIONS -->
+    <section class="footer-section">
+      <h4 class="footer-title">À Propos</h4>
+      <ul class="footer-links">
+        <li *ngFor="let link of footerLinks.about">
+          <a [routerLink]="link.link" class="footer-link">{{ link.label }}</a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="footer-section">
+      <h4 class="footer-title">Support</h4>
+      <ul class="footer-links">
+        <li *ngFor="let link of footerLinks.support">
+          <a [routerLink]="link.link" class="footer-link">{{ link.label }}</a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="footer-section">
+      <h4 class="footer-title">Vendeurs</h4>
+      <ul class="footer-links">
+        <li *ngFor="let link of footerLinks.sellers">
+          <a [routerLink]="link.link" class="footer-link">{{ link.label }}</a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- CONTACT INFO -->
+    <section class="footer-section footer-contact">
+      <h4 class="footer-title">Nous Contacter</h4>
+      <div class="contact-info">
+        <div *ngFor="let info of contactInfo" class="contact-item">
+          <span class="contact-icon">{{ info.icon }}</span>
+          <div class="contact-details">
+            <p class="contact-label">{{ info.label }}</p>
+            <p class="contact-value">{{ info.value }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEWSLETTER SIGNUP -->
+      <div class="newsletter">
+        <h5 class="newsletter-title">Rester informé</h5>
+        <form class="newsletter-form">
+          <input
+            type="email"
+            placeholder="Votre email..."
+            class="newsletter-input"
+            required
+          />
+          <button type="submit" class="newsletter-button">S'inscrire</button>
+        </form>
+        <p class="newsletter-disclaimer">
+          Recevez nos meilleures offres et actualités directement dans votre boîte mail.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER BOTTOM -->
+  <div class="footer-bottom">
+    <div class="footer-bottom-content">
+      <div class="footer-copyright">
+        <p>&copy; {{ currentYear }} Jaayal. Tous droits réservés.</p>
+      </div>
+
+      <div class="footer-legal-links">
+        <a *ngFor="let link of footerLinks.legal" [routerLink]="link.link" class="legal-link">
+          {{ link.label }}
+        </a>
+      </div>
+
+      <div class="footer-language">
+        <select class="language-select">
+          <option value="fr">🇸🇳 Français</option>
+          <option value="en">🇬🇧 English</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- BACK TO TOP BUTTON -->
+  <button class="back-to-top" (click)="scrollToTop()">
+    ↑ Top
+  </button>
+</footer>

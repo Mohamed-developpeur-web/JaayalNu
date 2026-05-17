@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -10,9 +11,25 @@ class MessageController extends Controller
     /**
      * Retourne la liste de tous les messages.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Message::all());
+        $messages = Message::with(['sender', 'receiver'])->get();
+
+        if ($request->wantsJson()) {
+            return response()->json($messages);
+        }
+
+        return view('messages.index', compact('messages'));
+    }
+
+    /**
+     * Affiche le formulaire de création d'un message.
+     */
+    public function create()
+    {
+        $users = User::orderBy('name')->get();
+
+        return view('messages.create', compact('users'));
     }
 
     /**
@@ -30,15 +47,35 @@ class MessageController extends Controller
 
         $message = Message::create($validated);
 
-        return response()->json($message, 201);
+        if ($request->wantsJson()) {
+            return response()->json($message, 201);
+        }
+
+        return redirect()->route('messages.index')->with('success', 'Message créé avec succès.');
     }
 
     /**
      * Affiche un message unique.
      */
-    public function show(Message $message)
+    public function show(Request $request, Message $message)
     {
-        return response()->json($message);
+        $message->load(['sender', 'receiver']);
+
+        if ($request->wantsJson()) {
+            return response()->json($message);
+        }
+
+        return view('messages.show', compact('message'));
+    }
+
+    /**
+     * Affiche le formulaire d'édition d'un message.
+     */
+    public function edit(Message $message)
+    {
+        $users = User::orderBy('name')->get();
+
+        return view('messages.edit', compact('message', 'users'));
     }
 
     /**
@@ -56,16 +93,24 @@ class MessageController extends Controller
 
         $message->update($validated);
 
-        return response()->json($message);
+        if ($request->wantsJson()) {
+            return response()->json($message);
+        }
+
+        return redirect()->route('messages.show', $message)->with('success', 'Message mis à jour.');
     }
 
     /**
      * Supprime un message.
      */
-    public function destroy(Message $message)
+    public function destroy(Request $request, Message $message)
     {
         $message->delete();
 
-        return response()->json(null, 204);
+        if ($request->wantsJson()) {
+            return response()->json(null, 204);
+        }
+
+        return redirect()->route('messages.index')->with('success', 'Message supprimé.');
     }
 }

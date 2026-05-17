@@ -1,0 +1,26 @@
+<section class="page-card">
+	<div class="section-title">
+		<h2>Catalogue</h2>
+		<div>
+			<label>Filtrer par catégorie:</label>
+			<select #catSelect (change)="router.navigate([], { queryParams: { categorie: catSelect.value } })">
+				<option value="">Toutes</option>
+				<option *ngFor="let c of categories" [value]="c.id">{{ c.nom }}</option>
+			</select>
+		</div>
+	</div>
+
+	<div *ngIf="loading">Chargement...</div>
+	<div *ngIf="!loading && produits.length === 0">Aucun produit trouvé.</div>
+	<div class="product-grid">
+		<article *ngFor="let produit of produits" class="page-card product-card">
+			<h3>{{ produit.nom }}</h3>
+			<p>{{ produit.description }}</p>
+			<div class="product-meta">
+				<strong>{{ produit.prix | number:'1.0-0' }} FCFA</strong>
+				<span>Stock: {{ produit.stock }}</span>
+			</div>
+			<a routerLink="/public/produits/{{ produit.id }}" class="cta-button small">Voir</a>
+		</article>
+	</div>
+</section>

@@ -1,7 +1,6 @@
-﻿<?php
-namespace App\Models;
+<?php
 
-/* Commentaire en français : Modèle Eloquent représentant un utilisateur du système. */
+namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
@@ -15,17 +14,8 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * Utilisateur authentifié de l'application.
-     * Il peut être lié à un profil administrateur, vendeur ou visiteur.
-     */
-
-    /**
-     * Attributs qui peuvent être remplis en masse.
-     * - name : nom affiché de l'utilisateur.
-     * - email : adresse email unique.
-     * - password : mot de passe haché.
-     * - role : rôle fonctionnel dans l'application.
-     * - date_inscription : date d'inscription du compte.
+     * Les attributs assignables en masse.
+     * Le champ `name` représente le nom de l'utilisateur.
      */
     protected $fillable = [
         'name',
@@ -33,20 +23,22 @@ class User extends Authenticatable
         'password',
         'role',
         'date_inscription',
+        'api_token',
     ];
 
     /**
-     * Attributs sensibles qui ne doivent pas être exposés dans les tableaux ou JSON.
+     * Les attributs qui ne doivent pas être exposés.
      *
      * @var list<string>
      */
     protected $hidden = [
         'password',
         'remember_token',
+        'api_token',
     ];
 
     /**
-     * Conversions automatiques des attributs vers des types PHP sécurisés.
+     * Les casts de colonnes pour obtenir les bons types PHP.
      *
      * @return array<string, string>
      */
@@ -60,7 +52,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Profil administrateur associé à cet utilisateur.
+     * Profil administrateur lié à cet utilisateur.
      */
     public function administrateur()
     {
@@ -68,7 +60,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Profil vendeur associé à cet utilisateur.
+     * Profil vendeur lié à cet utilisateur.
      */
     public function vendeur()
     {
@@ -76,7 +68,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Profil visiteur associé à cet utilisateur.
+     * Profil visiteur lié à cet utilisateur.
      */
     public function visiteur()
     {
@@ -100,13 +92,13 @@ class User extends Authenticatable
     }
 
     /**
-     * Notifications métier associées à cet utilisateur.
-     * Le nom est volontairement différent du trait Notifiable de Laravel.
+     * Notifications métier liées à cet utilisateur.
+     *
+     * Attention : nous conservons le trait Notifiable de Laravel,
+     * donc cette relation utilise un nom différent.
      */
     public function customNotifications()
     {
         return $this->hasMany(Notification::class);
     }
 }
-
-

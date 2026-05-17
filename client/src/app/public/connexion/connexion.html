@@ -1,0 +1,24 @@
+<div class="auth-card">
+  <h1>Connexion</h1>
+
+  <form (ngSubmit)="submit()" class="auth-form">
+    <label>
+      Email
+      <input type="email" [(ngModel)]="email" name="email" required />
+    </label>
+
+    <label>
+      Mot de passe
+      <input type="password" [(ngModel)]="password" name="password" required minlength="8" />
+    </label>
+
+    <button type="submit" class="cta-button">Se connecter</button>
+
+    <p class="auth-footer">
+      Pas encore inscrit ?
+      <a routerLink="/public/inscription">Créer un compte</a>
+    </p>
+
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  </form>
+</div>

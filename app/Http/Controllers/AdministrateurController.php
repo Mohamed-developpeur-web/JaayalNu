@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Administrateur;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdministrateurController extends Controller
@@ -10,9 +11,25 @@ class AdministrateurController extends Controller
     /**
      * Retourne tous les profils administrateur.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Administrateur::all());
+        $administrateurs = Administrateur::with('user')->get();
+
+        if ($request->wantsJson()) {
+            return response()->json($administrateurs);
+        }
+
+        return view('administrateurs.index', compact('administrateurs'));
+    }
+
+    /**
+     * Affiche le formulaire de création d'un administrateur.
+     */
+    public function create()
+    {
+        $users = User::orderBy('name')->get();
+
+        return view('administrateurs.create', compact('users'));
     }
 
     /**
@@ -26,15 +43,25 @@ class AdministrateurController extends Controller
 
         $administrateur = Administrateur::create($validated);
 
-        return response()->json($administrateur, 201);
+        if ($request->wantsJson()) {
+            return response()->json($administrateur, 201);
+        }
+
+        return redirect()->route('administrateurs.index')->with('success', 'Administrateur créé avec succès.');
     }
 
     /**
      * Retourne les détails d'un profil administrateur.
      */
-    public function show(Administrateur $administrateur)
+    public function show(Request $request, Administrateur $administrateur)
     {
-        return response()->json($administrateur);
+        $administrateur->load('user');
+
+        if ($request->wantsJson()) {
+            return response()->json($administrateur);
+        }
+
+        return view('administrateurs.show', compact('administrateur'));
     }
 
     /**
@@ -48,16 +75,34 @@ class AdministrateurController extends Controller
 
         $administrateur->update($validated);
 
-        return response()->json($administrateur);
+        if ($request->wantsJson()) {
+            return response()->json($administrateur);
+        }
+
+        return redirect()->route('administrateurs.show', $administrateur)->with('success', 'Administrateur mis à jour.');
+    }
+
+    /**
+     * Affiche le formulaire d'édition d'un administrateur.
+     */
+    public function edit(Administrateur $administrateur)
+    {
+        $users = User::orderBy('name')->get();
+
+        return view('administrateurs.edit', compact('administrateur', 'users'));
     }
 
     /**
      * Supprime un profil administrateur.
      */
-    public function destroy(Administrateur $administrateur)
+    public function destroy(Request $request, Administrateur $administrateur)
     {
         $administrateur->delete();
 
-        return response()->json(null, 204);
+        if ($request->wantsJson()) {
+            return response()->json(null, 204);
+        }
+
+        return redirect()->route('administrateurs.index')->with('success', 'Administrateur supprimé.');
     }
 }

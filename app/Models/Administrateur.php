@@ -1,7 +1,6 @@
-﻿<?php
-namespace App\Models;
+<?php
 
-/* Commentaire en français : Modèle Eloquent représentant le profil administrateur d'un utilisateur. */
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,20 +10,18 @@ class Administrateur extends Model
     use HasFactory;
 
     /**
-     * Attributs qui peuvent être remplis en masse.
-     * Ce profil est lié directement à un enregistrement dans la table users.
+     * Les attributs assignables en masse.
+     * Le rôle d'administrateur est géré ici comme un profil lié à un utilisateur.
      */
     protected $fillable = [
         'user_id',
     ];
 
     /**
-     * Relation vers l'utilisateur qui possède ce profil d'administrateur.
+     * Chaque administrateur est un utilisateur.
      */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 }
-
-

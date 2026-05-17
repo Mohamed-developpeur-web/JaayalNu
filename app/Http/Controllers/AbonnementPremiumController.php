@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AbonnementPremium;
+use App\Models\Vendeur;
 use Illuminate\Http\Request;
 
 class AbonnementPremiumController extends Controller
@@ -10,9 +11,25 @@ class AbonnementPremiumController extends Controller
     /**
      * Retourne tous les abonnements premium.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(AbonnementPremium::all());
+        $abonnements = AbonnementPremium::with('vendeur')->get();
+
+        if ($request->wantsJson()) {
+            return response()->json($abonnements);
+        }
+
+        return view('abonnements-premium.index', compact('abonnements'));
+    }
+
+    /**
+     * Affiche le formulaire de création d'un abonnement premium.
+     */
+    public function create()
+    {
+        $vendeurs = Vendeur::orderBy('id')->get();
+
+        return view('abonnements-premium.create', compact('vendeurs'));
     }
 
     /**
@@ -29,15 +46,25 @@ class AbonnementPremiumController extends Controller
 
         $abonnement = AbonnementPremium::create($validated);
 
-        return response()->json($abonnement, 201);
+        if ($request->wantsJson()) {
+            return response()->json($abonnement, 201);
+        }
+
+        return redirect()->route('abonnements-premium.index')->with('success', 'Abonnement premium créé avec succès.');
     }
 
     /**
      * Retourne le détail d'un abonnement premium.
      */
-    public function show(AbonnementPremium $abonnementPremium)
+    public function show(Request $request, AbonnementPremium $abonnementPremium)
     {
-        return response()->json($abonnementPremium);
+        $abonnementPremium->load('vendeur');
+
+        if ($request->wantsJson()) {
+            return response()->json($abonnementPremium);
+        }
+
+        return view('abonnements-premium.show', compact('abonnementPremium'));
     }
 
     /**
@@ -54,16 +81,34 @@ class AbonnementPremiumController extends Controller
 
         $abonnementPremium->update($validated);
 
-        return response()->json($abonnementPremium);
+        if ($request->wantsJson()) {
+            return response()->json($abonnementPremium);
+        }
+
+        return redirect()->route('abonnements-premium.show', $abonnementPremium)->with('success', 'Abonnement premium mis à jour.');
+    }
+
+    /**
+     * Affiche le formulaire d'édition d'un abonnement premium.
+     */
+    public function edit(AbonnementPremium $abonnementPremium)
+    {
+        $vendeurs = Vendeur::orderBy('id')->get();
+
+        return view('abonnements-premium.edit', compact('abonnementPremium', 'vendeurs'));
     }
 
     /**
      * Supprime un abonnement premium.
      */
-    public function destroy(AbonnementPremium $abonnementPremium)
+    public function destroy(Request $request, AbonnementPremium $abonnementPremium)
     {
         $abonnementPremium->delete();
 
-        return response()->json(null, 204);
+        if ($request->wantsJson()) {
+            return response()->json(null, 204);
+        }
+
+        return redirect()->route('abonnements-premium.index')->with('success', 'Abonnement premium supprimé.');
     }
 }

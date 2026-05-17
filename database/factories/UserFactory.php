@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /* Commentaire en français : Factory pour créer des données factices utilisées dans les tests et les seeders. */
 namespace Database\Factories;

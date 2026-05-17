@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /* Commentaire en français : Fichier de configuration des paramètres de l'application. */
 return [

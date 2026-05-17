@@ -10,9 +10,23 @@ class CategorieController extends Controller
     /**
      * Retourne toutes les catégories de produit.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Categorie::all());
+        $categories = Categorie::all();
+
+        if ($request->wantsJson()) {
+            return response()->json($categories);
+        }
+
+        return view('categories.index', compact('categories'));
+    }
+
+    /**
+     * Affiche le formulaire de création d'une catégorie.
+     */
+    public function create()
+    {
+        return view('categories.create');
     }
 
     /**
@@ -26,15 +40,31 @@ class CategorieController extends Controller
 
         $categorie = Categorie::create($validated);
 
-        return response()->json($categorie, 201);
+        if ($request->wantsJson()) {
+            return response()->json($categorie, 201);
+        }
+
+        return redirect()->route('categories.index')->with('success', 'Catégorie créée avec succès.');
     }
 
     /**
      * Affiche le détail d'une catégorie.
      */
-    public function show(Categorie $categorie)
+    public function show(Request $request, Categorie $categorie)
     {
-        return response()->json($categorie);
+        if ($request->wantsJson()) {
+            return response()->json($categorie);
+        }
+
+        return view('categories.show', compact('categorie'));
+    }
+
+    /**
+     * Affiche le formulaire d'édition d'une catégorie.
+     */
+    public function edit(Categorie $categorie)
+    {
+        return view('categories.edit', compact('categorie'));
     }
 
     /**
@@ -48,16 +78,24 @@ class CategorieController extends Controller
 
         $categorie->update($validated);
 
-        return response()->json($categorie);
+        if ($request->wantsJson()) {
+            return response()->json($categorie);
+        }
+
+        return redirect()->route('categories.show', $categorie)->with('success', 'Catégorie mise à jour.');
     }
 
     /**
      * Supprime une catégorie.
      */
-    public function destroy(Categorie $categorie)
+    public function destroy(Request $request, Categorie $categorie)
     {
         $categorie->delete();
 
-        return response()->json(null, 204);
+        if ($request->wantsJson()) {
+            return response()->json(null, 204);
+        }
+
+        return redirect()->route('categories.index')->with('success', 'Catégorie supprimée.');
     }
 }

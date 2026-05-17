@@ -1,6 +1,5 @@
 <?php
 
-/* Seeder métier pour créer les entités principales de la marketplace et leurs relations. */
 namespace Database\Seeders;
 
 use App\Models\AbonnementPremium;
@@ -20,8 +19,7 @@ class MarketplaceSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Crée des données métier représentatives pour catégories, vendeurs, visiteurs,
-     * abonnements premium, produits, messages et notifications.
+     * Seed the marketplace tables with sample data.
      */
     public function run(): void
     {
@@ -92,4 +90,3 @@ class MarketplaceSeeder extends Seeder
         ]);
     }
 }
-

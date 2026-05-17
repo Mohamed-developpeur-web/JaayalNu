@@ -1,5 +1,6 @@
-﻿/*Fichier de démarrage et de configuration initiale. */
 <?php
+
+/*Fichier de démarrage et de configuration initiale. */
 
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;

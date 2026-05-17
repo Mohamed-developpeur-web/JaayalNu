@@ -1,0 +1,39 @@
+<div class="auth-card">
+  <h1>Inscription</h1>
+
+  <form (ngSubmit)="submit()" class="auth-form">
+    <label>
+      Nom complet
+      <input type="text" [(ngModel)]="name" name="name" required />
+    </label>
+
+    <label>
+      Email
+      <input type="email" [(ngModel)]="email" name="email" required />
+    </label>
+
+    <label>
+      Mot de passe
+      <input type="password" [(ngModel)]="password" name="password" required minlength="8" />
+    </label>
+
+    <label>
+      Rôle
+      <select [(ngModel)]="role" name="role" required>
+        <option value="visiteur">Client</option>
+        <option value="vendeur">Vendeur</option>
+        <option value="administrateur">Administrateur</option>
+      </select>
+      <small>Choisissez votre type de compte pour accéder à l’espace correspondant.</small>
+    </label>
+
+    <button type="submit" class="cta-button">Créer un compte</button>
+
+    <p class="auth-footer">
+      Vous avez déjà un compte ?
+      <a routerLink="/public/connexion">Se connecter</a>
+    </p>
+
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  </form>
+</div>

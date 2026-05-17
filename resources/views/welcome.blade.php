@@ -1,4 +1,4 @@
-﻿{{-- Commentaire en français : Vue Blade utilisée pour afficher du HTML. --}}
+{{-- Commentaire en français : Vue Blade utilisée pour afficher du HTML. --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

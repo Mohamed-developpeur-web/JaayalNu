@@ -1,0 +1,189 @@
+<!-- HERO SECTION -->
+<section class="hero-section">
+	<div class="hero-content">
+		<h1 class="hero-title">Bienvenue sur Jaayal</h1>
+		<p class="hero-subtitle">Découvrez une marketplace locale où vendeurs et clients se rencontrent</p>
+		<div class="hero-actions">
+			<a routerLink="/public/connexion" class="btn btn-primary btn-lg">
+				🔐 Connexion
+			</a>
+			<a routerLink="/public/inscription" class="btn btn-secondary btn-lg">
+				✍️ Inscription
+			</a>
+			<a routerLink="/public/produits" class="btn btn-outline btn-lg">
+				🛍️ Découvrir les produits
+			</a>
+		</div>
+	</div>
+</section>
+
+<!-- STATISTIQUES KPI -->
+<section class="kpi-section">
+	<div class="kpi-container">
+		<article class="kpi-card">
+			<div class="kpi-icon">📦</div>
+			<div class="kpi-content">
+				<h3>{{ totalProduits }}</h3>
+				<p>Produits en ligne</p>
+			</div>
+		</article>
+		<article class="kpi-card">
+			<div class="kpi-icon">👥</div>
+			<div class="kpi-content">
+				<h3>{{ totalVendeurs }}</h3>
+				<p>Vendeurs vérifiés</p>
+			</div>
+		</article>
+		<article class="kpi-card">
+			<div class="kpi-icon">🏷️</div>
+			<div class="kpi-content">
+				<h3>{{ totalCategories }}</h3>
+				<p>Catégories</p>
+			</div>
+		</article>
+		<article class="kpi-card">
+			<div class="kpi-icon">✅</div>
+			<div class="kpi-content">
+				<h3>{{ produitEnVente }}</h3>
+				<p>Produits en stock</p>
+			</div>
+		</article>
+	</div>
+</section>
+
+<!-- GRAPHIQUE DE TRAFIC -->
+<section class="traffic-section">
+	<div class="section-card">
+		<div class="section-header">
+			<h2>Trafic et tendances</h2>
+			<p>Activité hebdomadaire sur la plateforme</p>
+		</div>
+		<div class="traffic-chart-container">
+			<canvas #trafficChart class="traffic-chart"></canvas>
+		</div>
+	</div>
+</section>
+
+<!-- CATÉGORIES POPULAIRES -->
+<section class="categories-section">
+	<div class="section-card">
+		<div class="section-header">
+			<h2>🏷️ Catégories populaires</h2>
+			<p>Explorez les catégories disponibles</p>
+		</div>
+		<div class="categories-grid">
+			<a
+				*ngFor="let categorie of categories"
+				[routerLink]="['/public/produits']"
+				[queryParams]="{ categorie: categorie.id }"
+				class="category-badge"
+			>
+				<span class="badge-label">{{ categorie.nom }}</span>
+				<span class="badge-arrow">→</span>
+			</a>
+		</div>
+	</div>
+</section>
+
+<!-- PRODUITS EN VEDETTE -->
+<section class="featured-products-section">
+	<div class="section-card">
+		<div class="section-header">
+			<h2>⭐ Produits en vedette</h2>
+			<p>Les produits les plus récents</p>
+		</div>
+
+		<div *ngIf="loading" class="loading-state">
+			<div class="spinner"></div>
+			<p>Chargement des produits...</p>
+		</div>
+
+		<div *ngIf="!loading && produits.length === 0" class="empty-state">
+			<p>🎁 Aucun produit disponible pour le moment.</p>
+		</div>
+
+		<div class="products-grid">
+			<article *ngFor="let produit of produits" class="product-card">
+				<div class="product-image-container">
+					<div class="product-placeholder">
+						📷
+					</div>
+					<span class="product-category-badge">{{ produit.categorie.nom }}</span>
+				</div>
+				<div class="product-content">
+					<h3 class="product-title">{{ produit.nom }}</h3>
+					<p class="product-description">{{ produit.description || 'Description non disponible' }}</p>
+					<div class="product-meta">
+						<span class="product-price">{{ produit.prix | number: '1.0-0' }} FCFA</span>
+						<span class="product-stock" [class.low-stock]="produit.stock < 5">
+							{{ produit.stock === 0 ? '❌ Rupture' : '✅ ' + produit.stock + ' en stock' }}
+						</span>
+					</div>
+					<div class="product-footer">
+						<p class="seller-name">Vendeur: <strong>{{ produit.vendeur.nom }}</strong></p>
+						<a [routerLink]="['/public/produits', produit.id]" class="btn btn-primary btn-sm">
+							Voir les détails
+						</a>
+					</div>
+				</div>
+			</article>
+		</div>
+
+		<div *ngIf="errorMessage" class="error-message">
+			⚠️ {{ errorMessage }}
+		</div>
+
+		<div class="section-footer">
+			<a routerLink="/public/produits" class="btn btn-outline">
+				Voir tous les produits →
+			</a>
+		</div>
+	</div>
+</section>
+
+<!-- AVANTAGES -->
+<section class="advantages-section">
+	<div class="section-card">
+		<div class="section-header">
+			<h2>Pourquoi choisir Jaayal ?</h2>
+		</div>
+		<div class="advantages-grid">
+			<div class="advantage-item">
+				<div class="advantage-icon">🔒</div>
+				<h3>Transactions sécurisées</h3>
+				<p>Vos achats et ventes sont protégés par nos systèmes de sécurité</p>
+			</div>
+			<div class="advantage-item">
+				<div class="advantage-icon">🚀</div>
+				<h3>Expédition rapide</h3>
+				<p>Livraison locale et à travers le pays en peu de temps</p>
+			</div>
+			<div class="advantage-item">
+				<div class="advantage-icon">💰</div>
+				<h3>Prix compétitifs</h3>
+				<p>Tous les prix sont directs du producteur local</p>
+			</div>
+			<div class="advantage-item">
+				<div class="advantage-icon">📱</div>
+				<h3>Support 24/7</h3>
+				<p>Notre équipe est disponible pour vous aider à tout moment</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+	<div class="cta-content">
+		<h2>Prêt à commencer?</h2>
+		<p>Rejoignez des milliers de vendeurs et clients satisfaits</p>
+		<div class="cta-buttons">
+			<a routerLink="/public/inscription" class="btn btn-primary btn-lg">
+				Créer un compte
+			</a>
+			<a routerLink="/public/produits" class="btn btn-outline btn-lg">
+				Continuer à explorer
+			</a>
+		</div>
+	</div>
+</section>

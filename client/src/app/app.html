@@ -1,0 +1,74 @@
+﻿<div class="app-shell">
+  <aside class="app-sidebar">
+    <div class="brand-group">
+      <div class="brand-logo">J</div>
+      <div>
+        <div class="brand-title">Jaayal</div>
+        <div class="brand-subtitle">Marketplace</div>
+      </div>
+    </div>
+
+    <nav class="app-nav">
+      <ng-container *ngIf="currentUser$ | async as currentUser; else guestLinks">
+        <div class="user-summary">Bonjour {{ currentUser.name }} • {{ currentUser.role }}</div>
+
+        <div class="nav-section-title">ACCÈS PUBLIC</div>
+        <a routerLink="/public" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">🏠 Vitrine</a>
+        <a routerLink="/public/produits" routerLinkActive="active">📦 Catalogue</a>
+
+        <ng-container *ngIf="currentUser.role === 'administrateur'">
+          <div class="nav-section-title">ADMINISTRATION</div>
+          <a routerLink="/admin" routerLinkActive="active">⚙️ Dashboard Admin</a>
+          <a routerLink="/admin/utilisateurs" routerLinkActive="active">👥 Utilisateurs</a>
+          <a routerLink="/admin/produits" routerLinkActive="active">📦 Produits</a>
+          <a routerLink="/admin/categories" routerLinkActive="active">🏷️ Catégories</a>
+          <a routerLink="/admin/abonnements" routerLinkActive="active">💳 Abonnements Premium</a>
+          <a routerLink="/admin/validation-vendeur" routerLinkActive="active">✅ Validation Vendeurs</a>
+          <a routerLink="/admin/statistiques" routerLinkActive="active">📊 Statistiques</a>
+        </ng-container>
+
+        <ng-container *ngIf="currentUser.role === 'vendeur'">
+          <div class="nav-section-title">ESPACE VENDEUR</div>
+          <a routerLink="/vendeur" routerLinkActive="active">🏢 Tableau de bord</a>
+          <a routerLink="/vendeur/mes-produits" routerLinkActive="active">📋 Mes produits</a>
+          <a routerLink="/vendeur/ajouter-produit" routerLinkActive="active">➕ Ajouter produit</a>
+          <a routerLink="/vendeur/messages" routerLinkActive="active">💬 Messages</a>
+          <a routerLink="/vendeur/statistiques" routerLinkActive="active">📈 Statistiques</a>
+          <a routerLink="/vendeur/modifier-profil" routerLinkActive="active">👤 Mon profil</a>
+        </ng-container>
+
+        <button class="cta-button" (click)="logout()">🚪 Déconnexion</button>
+      </ng-container>
+
+      <ng-template #guestLinks>
+        <div class="nav-section-title">CONNEXION</div>
+        <a routerLink="/public/connexion" routerLinkActive="active">🔐 Connexion</a>
+        <a routerLink="/public/inscription" routerLinkActive="active">✍️ Inscription</a>
+      </ng-template>
+    </nav>
+
+    <div class="app-sidebar-footer">
+      <p class="sidebar-footer-text">Accédez à votre espace selon votre rôle.</p>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="app-header">
+      <div class="header-left">
+        <h1>Marketplace Jaayal</h1>
+        <p>Plateforme de vente en ligne - Gestion complète</p>
+      </div>
+      <div class="header-right">
+        <input placeholder="Rechercher..." aria-label="Recherche" />
+        <button class="header-action">👤 Profil</button>
+        <div class="avatar">J</div>
+      </div>
+    </header>
+
+    <main class="app-content">
+      <router-outlet></router-outlet>
+    </main>
+
+    <app-footer></app-footer>
+  </div>
+</div>

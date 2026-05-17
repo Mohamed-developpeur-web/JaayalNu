@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /* Migration de base de données définissant une table ou une modification de schéma. */
 use Illuminate\Database\Migrations\Migration;
